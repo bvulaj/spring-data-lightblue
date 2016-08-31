@@ -17,9 +17,9 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = { TYPE })
-public @interface LightblueEntity {
+public @interface LBEntity {
 
-    String entity();
+    String entity() default "";
 
     String version() default "";
 
