@@ -1,0 +1,30 @@
+package com.redhat.lightblue.springdata.test.model;
+
+import org.springframework.data.annotation.Id;
+
+import com.redhat.lightblue.springdata.annotation.LBEntity;
+
+@LBEntity(entity = "simple")
+public class Simple {
+
+    @Id
+    private String _id;
+    private String value;
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+}
