@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Target(value = { TYPE })
 public @interface LBEntity {
 
-    String entity() default "";
+    String entity();
 
     String version() default "";
 

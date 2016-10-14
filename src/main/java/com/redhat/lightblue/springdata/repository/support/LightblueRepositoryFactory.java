@@ -12,6 +12,8 @@ import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.core.support.PersistentEntityInformation;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 
+import com.redhat.lightblue.client.LightblueClient;
+import com.redhat.lightblue.springdata.repository.LightblueRepository;
 import com.redhat.lightblue.springdata.repository.mapping.LightbluePersistentEntity;
 import com.redhat.lightblue.springdata.repository.mapping.LightbluePersistentProperty;
 import com.redhat.lightblue.springdata.repository.support.entity.LightbluePersistentEntityInformation;
@@ -22,6 +24,16 @@ import com.redhat.lightblue.springdata.repository.support.entity.LightbluePersis
  */
 public class LightblueRepositoryFactory extends RepositoryFactorySupport {
 
+    private final LightblueClient lightblueClient;
+
+    public LightblueClient getLightblueClient() {
+        return lightblueClient;
+    }
+
+    public LightblueRepositoryFactory(LightblueClient lightblueClient) {
+        this.lightblueClient = lightblueClient;
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -30,7 +42,7 @@ public class LightblueRepositoryFactory extends RepositoryFactorySupport {
     @Override
     public <T, ID extends Serializable> EntityInformation<T, ID> getEntityInformation(Class<T> domainClass) {
         PersistentEntity<T, LightbluePersistentProperty> pe = new LightbluePersistentEntity<>(domainClass);
-        PersistentEntityInformation<T, ID> ei = new LightbluePersistentEntityInformation<T, ID>(pe);
+        PersistentEntityInformation<T, ID> ei = new LightbluePersistentEntityInformation<>(pe);
         return ei;
     }
 
@@ -41,10 +53,15 @@ public class LightblueRepositoryFactory extends RepositoryFactorySupport {
      */
     @Override
     protected Object getTargetRepository(RepositoryInformation metadata) {
-        EntityInformation<?, Serializable> entityInformation = getEntityInformation(metadata.getDomainType());
-        // TODO: lb client injection
-        LightblueRepositoryImpl<?, Serializable> lbRepo = new LightblueRepositoryImpl<>(entityInformation, null);
-        return lbRepo;
+        return getTargetRepository(metadata.getDomainType());
+    }
+
+    public <T, ID extends Serializable> LightblueRepository<T, ID> getTargetRepository(Class<T> domainClass) {
+        return getTargetRepository(getEntityInformation(domainClass));
+    }
+
+    public <T, ID extends Serializable> LightblueRepository<T, ID> getTargetRepository(EntityInformation<T, ID> entityInformation) {
+        return new LightblueRepositoryImpl<>(entityInformation, getLightblueClient());
     }
 
     /*

@@ -1,10 +1,13 @@
 package com.redhat.lightblue.springdata.test.model;
 
+import org.springframework.data.annotation.Id;
+
 import com.redhat.lightblue.springdata.annotation.LBEntity;
 
 @LBEntity(entity = "simple")
 public class Simple {
 
+    @Id
     private String _id;
     private String value;
 

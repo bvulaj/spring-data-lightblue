@@ -5,11 +5,11 @@
             "collection": "simple",
             "datasource": "${mongo.datasource}"
         },
-        "name": "test",
+        "name": "simple",
         "defaultVersion": "1.0.0"
     },
     "schema": {
-        "name": "test",
+        "name": "simple",
         "status": {
             "value": "active"
         },
