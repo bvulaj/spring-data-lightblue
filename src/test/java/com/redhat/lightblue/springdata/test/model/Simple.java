@@ -1,5 +1,8 @@
 package com.redhat.lightblue.springdata.test.model;
 
+import com.redhat.lightblue.springdata.annotation.LBEntity;
+
+@LBEntity(entity = "simple")
 public class Simple {
 
     private String _id;
